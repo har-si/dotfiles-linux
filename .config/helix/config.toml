@@ -1,0 +1,27 @@
+theme = "base16_transparent"
+
+[editor]
+line-number = "relative"
+bufferline = "multiple"
+
+[editor.statusline]
+left = ["mode", "separator", "file-name", "file-modification-indicator", "spinner"]
+right = ["diagnostics", "spacer", "selections", "separator", "position", "spacer", "file-encoding"]
+mode.normal = "NORMAL"
+mode.insert = "INSERT"
+mode.select = "VISUAL"
+
+[keys.normal]
+esc = ["collapse_selection", "keep_primary_selection"]
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.file-picker]
+hidden = false
+
+#Uncomment if indentation guide is needed
+#[editor.indent-guides]
+#render = true
