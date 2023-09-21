@@ -6,7 +6,7 @@ bufferline = "multiple"
 
 [editor.statusline]
 left = ["mode", "separator", "file-name", "file-modification-indicator", "spinner"]
-right = ["diagnostics", "spacer", "selections", "separator", "position", "spacer", "file-encoding"]
+right = ["diagnostics", "spacer", "selections", "separator", "position", "separator", "position-percentage", "spacer", "file-encoding"]
 mode.normal = "NORMAL"
 mode.insert = "INSERT"
 mode.select = "VISUAL"
