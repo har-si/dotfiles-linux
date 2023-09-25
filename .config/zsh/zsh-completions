@@ -36,6 +36,11 @@ _comp_options+=(globdots) # With hidden files
 setopt MENU_COMPLETE        # Automatically highlight first element of completion menu
 setopt AUTO_LIST            # Automatically list choices on ambiguous completion.
 setopt COMPLETE_IN_WORD     # Complete from both ends of a word.
+setopt always_to_end
+#setopt auto_menu
+setopt auto_param_slash
+
+
 
 # +---------+
 # | zstyles |
@@ -50,17 +55,18 @@ zstyle ':completion:*' completer _extensions _complete _approximate
 # Use cache for commands using cache
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh/.zcompcache"
-# Complete the alias when _expand_alias is used as a function
+
 zstyle ':completion:*' complete true
 
+# Complete the alias when _expand_alias is used as a function
 zle -C alias-expension complete-word _generic
-bindkey '^Xa' alias-expension
+bindkey '^a' alias-expension
 zstyle ':completion:alias-expension:*' completer _expand_alias
 
 # Use cache for commands which use it
 
 # Allow you to select in a menu
-zstyle ':completion:*' menu select
+zstyle ':completion:*' menu select #try interactive and search
 
 # Autocomplete options for cd instead of directory stack
 zstyle ':completion:*' complete-options true
@@ -91,6 +97,12 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 
 zstyle ':completion:*' keep-prefix true
 
 zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
+
+# Detailed list of files and folders
+#zstyle ':completion:*' file-list all
+
+# Squeeze slashes //
+zstyle ':completion:*' squeeze-slashes true
 
 ## For kubernetes
 # source $DOTFILES/zsh/plugins/kubectl-completion/_kubectl

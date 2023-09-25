@@ -3,12 +3,24 @@
 # https://github.com/ChristianChiarulli/Machfiles/tree/6373a1fd1e42ca2fd8babd95ef4acce9164c86c3/zsh
 
 export ZDOTDIR=$HOME/.config/zsh
-HISTFILE=~/.zsh_history
-setopt appendhistory
+HISTFILE=$XDG_CACHE_HOME/zsh/history
+setopt append_history
+setopt extended_history
+setopt hist_expire_dups_first
+setopt hist_ignore_dups
+setopt hist_ignore_space
+setopt hist_verify
+setopt inc_append_history
+setopt share_history
 
 # some useful options (man zshoptions)
-setopt autocd extendedglob nomatch menucomplete
+setopt autocd
+setopt extended_glob
+setopt nocaseglob
+setopt nomatch
 setopt interactive_comments
+setopt prompt_subst
+
 stty stop undef		# Disable ctrl-s to freeze terminal.
 zle_highlight=('paste:none')
 
@@ -46,10 +58,10 @@ source "$ZDOTDIR/zsh-functions"
 
 # Normal files to source
 zsh_add_file "zsh-exports"
+zsh_add_file "zsh-completions"
 zsh_add_file "zsh-vim-mode"
 zsh_add_file "zsh-aliases"
 zsh_add_file "zsh-prompt"
-zsh_add_file "zsh-completions"
 
 # Plugins
 zsh_add_plugin "zsh-users/zsh-autosuggestions"
@@ -85,7 +97,7 @@ bindkey -r "^d"
 # export FZF_DEFAULT_COMMAND='rg --hidden -l ""'
 compinit
 
-# Edit line in vim with ctrl-e:
+# Edit line in nvim/hx with ctrl-e:
 autoload edit-command-line; zle -N edit-command-line
 bindkey '^e' edit-command-line
 bindkey -M vicmd '^e' edit-command-line
