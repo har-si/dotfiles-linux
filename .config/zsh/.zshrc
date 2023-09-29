@@ -20,12 +20,20 @@ setopt nocaseglob
 setopt nomatch
 setopt interactive_comments
 setopt prompt_subst
+setopt glob_dots
+setopt aliases
 
 stty stop undef		# Disable ctrl-s to freeze terminal.
 zle_highlight=('paste:none')
 
 # beeping is annoying
 unsetopt BEEP
+
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+
 
 # CHANGE TITLE OF TERMINALS (from DT)
 case ${TERM} in
@@ -37,19 +45,6 @@ case ${TERM} in
     ;;
 esac
 
-# completions (sourced in zsh-completions)
-# autoload -Uz compinit
-# zstyle ':combindkey -M vicmd '^e' edit-command-linepletion:*' menu select
-# # zstyle ':completion::complete:lsof:*' menu yes select
-# zmodload zsh/complist
-# # compinit
-# _comp_options+=(globdots)		# Include hidden files.
-
-autoload -U up-line-or-beginning-search
-autoload -U down-line-or-beginning-search
-zle -N up-line-or-beginning-search
-zle -N down-line-or-beginning-search
-
 # Colors
 autoload -Uz colors && colors
 
@@ -58,18 +53,36 @@ source "$ZDOTDIR/zsh-functions"
 
 # Normal files to source
 zsh_add_file "zsh-exports"
-zsh_add_file "zsh-completions"
+# zsh_add_file "zsh-completions"
+# zsh_add_file "zsh-autocomplete"
 zsh_add_file "zsh-vim-mode"
 zsh_add_file "zsh-aliases"
 zsh_add_file "zsh-prompt"
+zsh_add_file "zsh-directories"
+
+# zstyle ':completion:*:*:*:*:descriptions' format '%F{blue}-- %D %d --%f'
+# zstyle ':completion:*:*:descriptions' format '%F{blue}%d%f'
 
 # Plugins
-zsh_add_plugin "zsh-users/zsh-autosuggestions"
+# zsh_add_plugin "zsh-users/zsh-autosuggestions"
 zsh_add_plugin "zsh-users/zsh-syntax-highlighting"
+zsh_add_plugin "marlonrichert/zsh-autocomplete"
+zsh_add_plugin "marlonrichert/zcolors"
 # zsh_add_plugin "hlissner/zsh-autopair"
 # zsh_add_completion "esc/conda-zsh-completion" false
 # For more plugins: https://github.com/unixorn/awesome-zsh-plugins
 # More completions https://github.com/zsh-users/zsh-completions
+
+# source ~/.zcolor file when zcolor plugin is active
+# if LS_COLORS is modified, run the "zcolors > $HOME/.zcolors" to repopulate the file
+if [[ -e "$ZDOTDIR/.zcolors" ]] ; then
+    source $ZDOTDIR/.zcolors
+else
+    zcolors > $ZDOTDIR/.zcolors
+fi
+
+# Remove the / after the directory name in tab completions
+set +o list_types
 
 # Key-bindings
 # bindkey -s '^o' 'ranger^M'
@@ -78,24 +91,21 @@ zsh_add_plugin "zsh-users/zsh-syntax-highlighting"
 # bindkey -s '^n' 'nvim $(fzf)^M'
 # bindkey -s '^v' 'nvim\n'
 # bindkey -s '^z' 'zi^M'
-bindkey '^[[P' delete-char
-bindkey "^p" up-line-or-beginning-search # Up
-bindkey "^n" down-line-or-beginning-search # Down
-bindkey "^k" up-line-or-beginning-search # Up
-bindkey "^j" down-line-or-beginning-search # Down
-bindkey -r "^u"
-bindkey -r "^d"
+# bindkey '^[[P' delete-char
+# bindkey "^p" up-line-or-beginning-search # Up
+# bindkey "^n" down-line-or-beginning-search # Down
+# bindkey "^k" up-line-or-beginning-search # Up
+# bindkey "^j" down-line-or-beginning-search # Down
+# bindkey -r "^u"
+# bindkey -r "^d"
 
 # FZF 
-# TODO update for mac
 [ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
 [ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
 [ -f /usr/share/doc/fzf/examples/completion.zsh ] && source /usr/share/doc/fzf/examples/completion.zsh
 [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ] && source /usr/share/doc/fzf/examples/key-bindings.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f $ZDOTDIR/completion/_fnm ] && fpath+="$ZDOTDIR/completion/"
-# export FZF_DEFAULT_COMMAND='rg --hidden -l ""'
-compinit
 
 # Edit line in nvim/hx with ctrl-e:
 autoload edit-command-line; zle -N edit-command-line
@@ -105,8 +115,15 @@ bindkey -M vicmd '^e' edit-command-line
 # For QT Themes
 export QT_QPA_PLATFORMTHEME=qt5ct
 
-# remap caps to escape
-# setxkbmap -option caps:escape
-# swap escape and caps
-# setxkbmap -option caps:swapescape
-
+# Autocomplete keybindings
+bindkey '^j' menu-select    # Enter menu selection when in viins mode
+bindkey '^k' vi-up-line-or-history
+bindkey -M menuselect '^h' vi-backward-char
+bindkey -M menuselect '^k' vi-up-line-or-history
+bindkey -M menuselect '^l' vi-forward-char
+bindkey -M menuselect '^j' vi-down-line-or-history
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
+bindkey -M menuselect 'j' vi-down-line-or-history
+bindkey -M menuselect '\t' accept-and-down-history
