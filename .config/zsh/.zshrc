@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 #!/bin/sh
 
 # https://github.com/ChristianChiarulli/Machfiles/tree/6373a1fd1e42ca2fd8babd95ef4acce9164c86c3/zsh
@@ -92,12 +99,12 @@ set +o list_types
 # bindkey -s '^v' 'nvim\n'
 # bindkey -s '^z' 'zi^M'
 # bindkey '^[[P' delete-char
-# bindkey "^p" up-line-or-beginning-search # Up
-# bindkey "^n" down-line-or-beginning-search # Down
-# bindkey "^k" up-line-or-beginning-search # Up
-# bindkey "^j" down-line-or-beginning-search # Down
-# bindkey -r "^u"
-# bindkey -r "^d"
+bindkey "^p" up-line-or-beginning-search # Up
+bindkey "^n" down-line-or-beginning-search # Down
+bindkey "^k" up-line-or-beginning-search # Up
+bindkey "^j" down-line-or-beginning-search # Down
+bindkey -r "^u"
+bindkey -r "^d"
 
 # FZF 
 [ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
@@ -116,14 +123,11 @@ bindkey -M vicmd '^e' edit-command-line
 export QT_QPA_PLATFORMTHEME=qt5ct
 
 # Autocomplete keybindings
-bindkey '^j' menu-select    # Enter menu selection when in viins mode
-bindkey '^k' vi-up-line-or-history
-bindkey -M menuselect '^h' vi-backward-char
-bindkey -M menuselect '^k' vi-up-line-or-history
-bindkey -M menuselect '^l' vi-forward-char
-bindkey -M menuselect '^j' vi-down-line-or-history
+bindkey '\t' menu-select    # Enter menu selection when in viins mode
 bindkey -M menuselect 'h' vi-backward-char
 bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
-bindkey -M menuselect '\t' accept-and-down-history
+bindkey -M menuselect '\t' accept-search
+bindkey -M menuselect '\r' .accept-line
+
