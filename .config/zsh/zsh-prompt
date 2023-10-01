@@ -7,7 +7,7 @@ autoload -U colors && colors
 # enable only git 
 zstyle ':vcs_info:*' enable git 
 
-# setup a hook that runs before every ptompt. 
+# setup a hook that runs before every prompt. 
 precmd_vcs_info() { vcs_info }
 precmd_functions+=( precmd_vcs_info )
 setopt prompt_subst
@@ -28,22 +28,58 @@ zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
 }
 
 zstyle ':vcs_info:*' check-for-changes true
-# zstyle ':vcs_info:git:*' formats " %r/%S %b %m%u%c "
 zstyle ':vcs_info:git:*' formats " %{$fg[blue]%}(%{$fg[red]%}%m%u%c%{$fg[yellow]%}%{$fg[magenta]%} %b%{$fg[blue]%})"
 
-# format our main prompt for hostname current folder, and permissions.
-# PROMPT="%B%{$fg[blue]%}[%{$fg[white]%}%n%{$fg[red]%}@%{$fg[white]%}%m%{$fg[blue]%}] %(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )%{$fg[cyan]%}%c%{$reset_color%}"
-# PROMPT="%B%{$fg[blue]%}[%{$fg[white]%}c%{$fg[red]%}@%{$fg[white]%}m%{$fg[blue]%}] %(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )%{$fg[cyan]%}%c%{$reset_color%}"
-# PROMPT="%{$fg[green]%}%n@%m %~ %{$reset_color%}%#> "
-# PROMPT+="\$vcs_info_msg_0_ "
-# TODO look into this for more colors
-# https://stevelosh.com/blog/2010/02/my-extravagant-zsh-prompt/
-# also ascii escape codes
 
+
+# Main Prompt
+PROMPT="%B%{$fg[blue]%}[%{$fg[red]%}%n%{$fg[blue]%}󰁥%{$fg[red]%}%m%{$fg[blue]%}] %{$fg[cyan]%} %c%{$reset_color%}"
+PROMPT+="\$vcs_info_msg_0_ "    #Append the git status info from above
+PROMPT+="%(?:%{$fg_bold[green]%}󰁱 :%{$fg_bold[red]%}󰁱 )"  #Append the arrow icon with last command status
+
+
+# Draw a line at the start of each prompt
+setopt promptsubst
 NEWLINE=$'\n'
+PS1=$'%F{8}${(r:$COLUMNS::-:)}%f'${NEWLINE}$PS1     #the color of the line can be change using the 16 or 256 terminal colors
+                                                    #defailt is 8 for black (bright)
 
-PROMPT="${NEWLINE}%B%{$fg[blue]%}[%{$fg[red]%}%n%{$fg[blue]%}󰁥%{$fg[red]%}%m%{$fg[blue]%}] %{$fg[cyan]%} %c%{$reset_color%}"
+# Display commands runtime timer in right prompt
+# https://gist.github.com/knadh/123bca5cfdae8645db750bfb49cb44b0?permalink_comment_id=3556104#gistcomment-3556104
+{
+    setopt prompt_subst
 
-PROMPT+="\$vcs_info_msg_0_ "
+    function preexec() {
+      cmd_start=$(($(print -P %D{%s%6.}) / 1000))
+    }
 
-PROMPT+="%(?:%{$fg_bold[green]%}󰁱 :%{$fg_bold[red]%}󰁱 )"
+    function precmd() {
+      if [ $cmd_start ]; then
+        local now=$(($(print -P %D{%s%6.}) / 1000))
+        local d_ms=$(($now - $cmd_start))
+        local d_s=$((d_ms / 1000))
+        local ms=$((d_ms % 1000))
+        local s=$((d_s % 60))
+        local m=$(((d_s / 60) % 60))
+        local h=$((d_s / 3600))
+
+        if   ((h > 0)); then cmd_time=${h}h${m}m
+        elif ((m > 0)); then cmd_time=${m}m${s}s
+        elif ((s > 9)); then cmd_time=${s}.$(printf %03d $ms | cut -c1-2)s # 12.34s
+        elif ((s > 0)); then cmd_time=${s}.$(printf %03d $ms)s # 1.234s
+        else cmd_time=${ms}ms
+        fi
+
+        unset cmd_start
+      else
+        # Clear previous result when hitting Return with no command to execute
+        unset cmd_time
+      fi
+    }
+
+    RPROMPT='%F{8}$(if [ $cmd_time ]; then echo "󱦟 $cmd_time"; fi)%F{none}'
+}
+
+
+# Show the Current Time in HH:MM AM/PM; Append after runtime timer
+RPROMPT+="%F{8} %t%f"
