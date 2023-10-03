@@ -31,20 +31,7 @@ zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:git:*' formats " %{$fg[blue]%}(%{$fg[red]%}%m%u%c%{$fg[yellow]%}%{$fg[magenta]%} %b%{$fg[blue]%})"
 
 
-
-# Main Prompt
-PROMPT="%B%{$fg[blue]%}[%{$fg[red]%}%n%{$fg[blue]%}󰁥%{$fg[red]%}%m%{$fg[blue]%}] %{$fg[cyan]%} %c%{$reset_color%}"
-PROMPT+="\$vcs_info_msg_0_ "    #Append the git status info from above
-PROMPT+="%(?:%{$fg_bold[green]%}󰁱 :%{$fg_bold[red]%}󰁱 )"  #Append the arrow icon with last command status
-
-
-# Draw a line at the start of each prompt
-setopt promptsubst
-NEWLINE=$'\n'
-PS1=$'%F{8}${(r:$COLUMNS::-:)}%f'${NEWLINE}$PS1     #the color of the line can be change using the 16 or 256 terminal colors
-                                                    #defailt is 8 for black (bright)
-
-# Display commands runtime timer in right prompt
+# Function to display commands runtime timer in right prompt
 # https://gist.github.com/knadh/123bca5cfdae8645db750bfb49cb44b0?permalink_comment_id=3556104#gistcomment-3556104
 {
     setopt prompt_subst
@@ -76,10 +63,23 @@ PS1=$'%F{8}${(r:$COLUMNS::-:)}%f'${NEWLINE}$PS1     #the color of the line can b
         unset cmd_time
       fi
     }
-
-    RPROMPT='%F{8}$(if [ $cmd_time ]; then echo "󱦟 $cmd_time"; fi)%F{none}'
 }
 
 
-# Show the Current Time in HH:MM AM/PM; Append after runtime timer
+NEWLINE=$'\n'       #new line variable
+
+# Main Prompt
+PROMPT="%F{8}${(r:$COLUMNS::-:)}%f${NEWLINE}"       #Draw a line at the start of each prompt
+PROMPT+="%B%{$fg[blue]%}[%{$fg[red]%}%n%{$fg[blue]%}󰁥%{$fg[red]%}%m%{$fg[blue]%}] %{$fg[cyan]%} %1~%{$reset_color%}"
+PROMPT+="\$vcs_info_msg_0_ "    #Append the git status info function 
+PROMPT+="${NEWLINE}"
+PROMPT+="%(?:%{$fg_bold[green]%}󰁱 :%{$fg_bold[red]%}󰁱 )"  #Append the arrow icon with last command status
+
+
+# Right Prompt
+RPROMPT='%{$(echotc UP 1)%}'    #command to move right prompt oneline above (buggy)
+RPROMPT+='%F{8}$(if [ $cmd_time ]; then echo "󱦟 $cmd_time"; fi)%F{none}'    #append timer function
 RPROMPT+="%F{8} %t%f"
+RPROMPT+="%{$(echotc DO 1)%}"   #command to move right prompt oneline above
+
+
