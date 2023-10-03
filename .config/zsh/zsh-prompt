@@ -16,8 +16,7 @@ setopt prompt_subst
 # from https://github.com/zsh-users/zsh/blob/master/Misc/vcs_info-examples
 zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
 # 
-+vi-git-untracked(){
-    if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
++vi-git-untracked(){ if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
         git status --porcelain | grep '??' &> /dev/null ; then
         # This will show the marker if there are any untracked files in repo.
         # If instead you want to show the marker only if there are untracked
@@ -69,12 +68,13 @@ zstyle ':vcs_info:git:*' formats " %{$fg[blue]%}(%{$fg[red]%}%m%u%c%{$fg[yellow]
 NEWLINE=$'\n'       #new line variable
 
 # Main Prompt
-PROMPT="%F{8}${(r:$COLUMNS::-:)}%f${NEWLINE}"       #Draw a line at the start of each prompt
-PROMPT+="%B%{$fg[blue]%}[%{$fg[red]%}%n%{$fg[blue]%}󰁥%{$fg[red]%}%m%{$fg[blue]%}] %{$fg[cyan]%} %1~%{$reset_color%}"
+PROMPT="%B%{$fg[blue]%}[%{$fg[red]%}%n%{$fg[blue]%}󰁥%{$fg[red]%}%m%{$fg[blue]%}] %{$fg[cyan]%} %1~%{$reset_color%}"
 PROMPT+="\$vcs_info_msg_0_ "    #Append the git status info function 
 PROMPT+="${NEWLINE}"
 PROMPT+="%(?:%{$fg_bold[green]%}󰁱 :%{$fg_bold[red]%}󰁱 )"  #Append the arrow icon with last command status
 
+# Draw a line at the start of each prompt
+PS1=$'%F{8}${(r:$COLUMNS::-:)}%f'${NEWLINE}$PS1
 
 # Right Prompt
 RPROMPT='%{$(echotc UP 1)%}'    #command to move right prompt oneline above (buggy)
