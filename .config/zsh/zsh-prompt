@@ -27,7 +27,7 @@ zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
 }
 
 zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:git:*' formats " %{$fg[blue]%}(%{$fg[red]%}%m%u%c%{$fg[yellow]%}%{$fg[magenta]%} %b%{$fg[blue]%})"
+zstyle ':vcs_info:git:*' formats " %F{4}[%F{1}%m%u%c%F{3}%F{5} %b%F{4}]"
 
 
 # Function to display commands runtime timer in right prompt
@@ -68,7 +68,7 @@ zstyle ':vcs_info:git:*' formats " %{$fg[blue]%}(%{$fg[red]%}%m%u%c%{$fg[yellow]
 NEWLINE=$'\n'       #new line variable
 
 # Main Prompt
-PROMPT="%B%{$fg[blue]%}[%{$fg[red]%}%n%{$fg[blue]%}󰁥%{$fg[red]%}%m%{$fg[blue]%}] %{$fg[cyan]%} %1~%{$reset_color%}"
+PROMPT="%B%F{4}[%F{1}%n%F{4}󰁥%F{1}%m%F{4}] %F{4}[%F{14} %1~%F{4}]%f"
 PROMPT+="\$vcs_info_msg_0_ "    #Append the git status info function 
 PROMPT+="${NEWLINE}"
 PROMPT+="%(?:%{$fg_bold[green]%}󰁱 :%{$fg_bold[red]%}󰁱 )"  #Append the arrow icon with last command status
@@ -82,4 +82,19 @@ RPROMPT+='%F{8}$(if [ $cmd_time ]; then echo "󱦟 $cmd_time"; fi)%F{none}'    #
 RPROMPT+="%F{8} %t%f"
 RPROMPT+="%{$(echotc DO 1)%}"   #command to move right prompt oneline above
 
+
+
+# 16 ANSI Colors (Base16)
+
+#         | Normal |Bright | 
+#---------+--------+-------+
+# Black   |   0    |   8   |
+# Red     |   1    |   9   |
+# Green   |   2    |   10  |
+# Yellow  |   3    |   11  |
+# Blue    |   4    |   12  |
+# Purple  |   5    |   13  |
+# Cyan    |   6    |   14  |
+# White   |   7    |   15  |
+#---------+--------+-------+
 
