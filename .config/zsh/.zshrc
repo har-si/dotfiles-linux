@@ -66,9 +66,13 @@ zsh_add_file "zsh-vim-mode"
 zsh_add_file "zsh-aliases"
 zsh_add_file "zsh-prompt"
 zsh_add_file "zsh-directories"
+zsh_add_file "zsh-fzf"
 
+# Change the zsh completion description color (use escape codes for the ansi colors instead of %F{blue})
+# https://github.com/marlonrichert/zsh-autocomplete/issues/654
 # zstyle ':completion:*:*:*:*:descriptions' format '%F{blue}-- %D %d --%f'
 # zstyle ':completion:*:*:descriptions' format '%F{blue}%d%f'
+zstyle ':completion:*:*:descriptions' format $'\033[1;34m%d\033[0m'
 
 # Plugins
 # zsh_add_plugin "zsh-users/zsh-autosuggestions"
@@ -105,14 +109,6 @@ bindkey "^k" up-line-or-beginning-search # Up
 bindkey "^j" down-line-or-beginning-search # Down
 bindkey -r "^u"
 bindkey -r "^d"
-
-# FZF 
-[ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
-[ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
-[ -f /usr/share/doc/fzf/examples/completion.zsh ] && source /usr/share/doc/fzf/examples/completion.zsh
-[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ] && source /usr/share/doc/fzf/examples/key-bindings.zsh
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -f $ZDOTDIR/completion/_fnm ] && fpath+="$ZDOTDIR/completion/"
 
 # Edit line in nvim/hx with ctrl-e:
 autoload edit-command-line; zle -N edit-command-line

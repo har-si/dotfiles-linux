@@ -1,0 +1,47 @@
+# fzf
+export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git"'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+FZF_COLORS="bg+:-1,\
+fg:white,\
+fg+:white,\
+border:black,\
+spinner:0,\
+hl:yellow,\
+header:blue,\
+info:green,\
+pointer:red,\
+marker:blue,\
+prompt:gray,\
+hl+:red"
+
+export FZF_DEFAULT_OPTS="--height 60% \
+--border sharp \
+--layout reverse \
+--color '$FZF_COLORS' \
+--prompt '∷ ' \
+--pointer ▶ \
+--marker ⇒"
+export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -n 10'"
+export FZF_COMPLETION_DIR_COMMANDS="cd pushd rmdir tree ls"
+
+
+
+# Sourching fzf for zsh 
+[ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
+[ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
+[ -f /usr/share/doc/fzf/examples/completion.zsh ] && source /usr/share/doc/fzf/examples/completion.zsh
+[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ] && source /usr/share/doc/fzf/examples/key-bindings.zsh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f $ZDOTDIR/completion/_fnm ] && fpath+="$ZDOTDIR/completion/"
+
+
+# fzf (from agile steel)
+export FZF_DEFAULT_COMMAND='fd --type f --color=never --hidden'
+export FZF_DEFAULT_OPTS='--no-height --color=bg+:#343d46,gutter:-1,pointer:#ff3c3c,info:#0dbc79,hl:#0dbc79,hl+:#23d18b'
+
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_OPTS="--preview 'bat --color=always --line-range :50 {}'"
+
+export FZF_ALT_C_COMMAND='fd --type d . --color=never --hidden'
+export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -50'"

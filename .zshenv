@@ -46,33 +46,6 @@ export HISTSIZE=10000                   # Maximum events for internal history
 export SAVEHIST=10000                   # Maximum events in history file
 export HISTORY_IGNORE="(ls|cd|pwd|exit|sudo reboot|history|cd -|cd ..)"
 
-# fzf
-export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git"'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-
-FZF_COLORS="bg+:-1,\
-fg:white,\
-fg+:white,\
-border:black,\
-spinner:0,\
-hl:yellow,\
-header:blue,\
-info:green,\
-pointer:red,\
-marker:blue,\
-prompt:gray,\
-hl+:red"
-
-export FZF_DEFAULT_OPTS="--height 60% \
---border sharp \
---layout reverse \
---color '$FZF_COLORS' \
---prompt '∷ ' \
---pointer ▶ \
---marker ⇒"
-export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -n 10'"
-export FZF_COMPLETION_DIR_COMMANDS="cd pushd rmdir tree ls"
-
 # lf icons
 export LF_ICONS="\
 tw=:\
