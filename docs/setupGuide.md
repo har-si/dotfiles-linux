@@ -60,11 +60,11 @@
 
 1. Install `GNOME Tweaks` `GNOME Extensions App` from DNF
 
-1. Install `Gnome Extensions Manager` `Gradience` `Flatseal` `dconf-editor` from Flathub
+1. Install `Gnome Extensions Manager` `Gradience` `Flatseal` `dconf-editor` `bottles` from Flathub
 
 1. Install TLP (laptop battery optimization) using this `sudo dnf install tlp tlp-rdw`
 
-1. Install packages: `sudo dnf install zsh fzf bat ripgrep lsd fd-find btop neovim vim vlc openssl`
+1. Install packages: `sudo dnf install zsh fzf bat ripgrep lsd fd-find btop neovim vim vlc openssl calibre`
 
 1. Install Helix, Marksman LSP, Glow MD Viewer (follow instructions from website)
     - Helix: download using COPR
@@ -79,3 +79,9 @@
 
 ---
 
+## Change Calibre Library Folder Location
+1. Open Calibre app.
+1. Under Library tab, select `Switch/Create Library`
+1. Choose the new folder and check `Move the current library to new location`
+
+---

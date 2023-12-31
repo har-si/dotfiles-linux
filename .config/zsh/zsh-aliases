@@ -38,3 +38,6 @@ alias mirrora="sudo reflector --latest 50 --number 20 --sort age --save /etc/pac
 
 # get error messages from journalctl
 alias jctl="journalctl -p 3 -xb"
+
+# Disown processes from terminal
+alias dis="1>/null/dev 2>/null/dev & disown"

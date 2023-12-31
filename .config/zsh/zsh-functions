@@ -31,6 +31,20 @@ function zsh_add_completion() {
     if [ "$2" = true ] && compinit "${completion_file:1}"
 }
 
+
+
+
+# Function to automate LS after CD
+
+function c() {
+  if [ -d "$1" ]; then
+    cd "$1" && lsd -A --color=always --group-directories-first --icon=always
+  else
+    echo "Error: '$1' is not a directory."
+  fi
+}
+
+
 # Extract function for common file format from DT
 
 SAVEIFS=$IFS
@@ -74,3 +88,5 @@ fi
 }
 
 IFS=$SAVEIFS
+
+

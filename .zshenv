@@ -1,8 +1,8 @@
 # default apps
 export EDITOR="hx"
 export VISUAL="hx"
-export TERMINAL="alacritty"
-export BROWSER="firefox"
+export TERMINAL="gnome-terminal"
+export BROWSER="brave-brower"
 export MANPAGER="less -R --use-color -Dd+r -Du+b"
 # export MANPAGER='nvim +Man!'
 
@@ -42,7 +42,7 @@ export ZDOTDIR="$HOME/.config/zsh"
 export HISTFILE="$ZDOTDIR/.zhistory"    # History filepath
 export HISTSIZE=10000                   # Maximum events for internal history
 export SAVEHIST=10000                   # Maximum events in history file
-export HISTORY_IGNORE="(ls|cd|pwd|exit|sudo reboot|history|cd -|cd ..)"
+export HISTORY_IGNORE="(ls|la|ll|lt|l1|c|1|2|3|4|5|6|7|8|9|cd|pwd|exit|sudo reboot|history|cd -|cd ..)"
 
 # lf icons
 export LF_ICONS="\

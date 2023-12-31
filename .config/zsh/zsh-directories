@@ -10,6 +10,3 @@ alias d='dirs -v'
 # alias from 1-9 to jump directly to the stack
 for index ({1..9}) alias "$index"="cd +${index}"; unset index
 
-
-
-# Alias to automatic LS after CD
