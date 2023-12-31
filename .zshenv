@@ -19,12 +19,10 @@ if [ -d "$HOME/.bin" ] ;
   then PATH="$HOME/.bin:$PATH"
 fi
 
-if [ -d "$HOME/.local/bin" ] ;
-  then PATH="$HOME/.local/bin:$PATH"
-fi
-
 # Adds ~/.local/bin and subfolders to $PATH
-export PATH="${$(find ~/.local/bin -maxdepth 1 -type d -printf %p:)%%:}:$PATH"
+if [ -d "$HOME/.local/bin" ] ;
+  then export PATH="${$(find ~/.local/bin -maxdepth 1 -type d -printf %p:)%%:}:$PATH"
+fi
 
 # cleaning up home folder (XDG)
 export XDG_CONFIG_HOME="$HOME/.config"
