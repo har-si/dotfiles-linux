@@ -64,7 +64,7 @@
 
 1. Install TLP (laptop battery optimization) using this `sudo dnf install tlp tlp-rdw`
 
-1. Install packages: `sudo dnf install zsh fzf bat ripgrep lsd fd-find btop neovim vim vlc openssl calibre`
+1. Install packages: `sudo dnf install zsh fzf bat ripgrep lsd fd-find btop neovim vim vlc openssl calibre tldr`
 
 1. Install Helix, Marksman LSP, Glow MD Viewer (follow instructions from website)
     - Helix: download using COPR

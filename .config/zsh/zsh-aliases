@@ -29,6 +29,7 @@ alias rm="rm -vI"
 alias bc="bc -ql"
 alias mkdir="mkdir -pv"
 alias rsync='rsync --progress -v'
+alias bat='bat --color=always'
 
 # get fastest mirrors for Arch
 alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"

@@ -1,28 +1,39 @@
-# fzf
-export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git"'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+export FZF_DEFAULT_COMMAND='fd . --color=never --hidden --no-ignore --exclude ".git"'
 
 FZF_COLORS="bg+:-1,\
-fg:white,\
+fg:gray,\
 fg+:white,\
-border:black,\
+border:gray,\
 spinner:0,\
 hl:yellow,\
 header:blue,\
 info:green,\
 pointer:red,\
-marker:blue,\
-prompt:gray,\
+marker:red,\
+prompt:white,\
 hl+:red"
 
-export FZF_DEFAULT_OPTS="--height 60% \
---border sharp \
---layout reverse \
+export FZF_DEFAULT_OPTS="--multi \
+--height=60% \
+--min-height=10 \
+--margin=3% \
+--border=rounded \
+--layout=reverse \
 --color '$FZF_COLORS' \
---prompt '∷ ' \
---pointer ▶ \
---marker ⇒"
-export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -n 10'"
+--prompt '󰁱 ' \
+--pointer='󰁱' \
+--marker=''"
+
+
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_OPTS="--preview 'bat --color=always --line-range :50 {}'"
+
+
+export FZF_ALT_C_COMMAND='fd --type d . --color=never --hidden'
+export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -n 50'"
+
+
 export FZF_COMPLETION_DIR_COMMANDS="cd pushd rmdir tree ls"
 
 
@@ -36,12 +47,85 @@ export FZF_COMPLETION_DIR_COMMANDS="cd pushd rmdir tree ls"
 [ -f $ZDOTDIR/completion/_fnm ] && fpath+="$ZDOTDIR/completion/"
 
 
-# fzf (from agile steel)
-export FZF_DEFAULT_COMMAND='fd --type f --color=never --hidden'
-export FZF_DEFAULT_OPTS='--no-height --color=bg+:#343d46,gutter:-1,pointer:#ff3c3c,info:#0dbc79,hl:#0dbc79,hl+:#23d18b'
+# FZF File Manager Functions
 
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_CTRL_T_OPTS="--preview 'bat --color=always --line-range :50 {}'"
+# Default: Directories
+function d() {
 
-export FZF_ALT_C_COMMAND='fd --type d . --color=never --hidden'
-export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -50'"
+  # store the stdout of fzf in a variable
+  selection=$(fd --type d --color=never --hidden --no-ignore --exclude ".git" | fzf --multi --height=90% --border=rounded \
+  --preview='tree -c -C {}' --preview-window='45%,border-rounded' \
+  --prompt='Dirs 󰁱 ' \
+  --bind='del:become(rm -rI {+})' \
+  --bind='ctrl-y:become(wl-copy {+}; echo Copied to Clipboard: {+})' \
+  --bind='ctrl-p:toggle-preview' \
+  --bind='ctrl-d:change-prompt(Dirs 󰁱 )' \
+  --bind='ctrl-d:+reload(find -type d)' \
+  --bind='ctrl-d:+change-preview(tree -c -C {})' \
+  --bind='ctrl-d:+refresh-preview' \
+  --bind='ctrl-f:change-prompt(Files 󰁱 )' \
+  --bind='ctrl-f:+reload(fd --type f --color=never --hidden --no-ignore --exclude ".git")' \
+  --bind='ctrl-f:+change-preview(bat --color=always {})' \
+  --bind='ctrl-f:+refresh-preview' \
+  --bind='ctrl-a:select-all' \
+  --bind='ctrl-x:deselect-all' \
+  --header-first \
+  --header ' C-d:Dirs | C-f:Files | C-p:Preview
+ C-a:All | C-x:None | C-y:Copy | DEL
+    '
+  )
+
+  # determine what to do depending on the selection
+  if [ -z "$selection" ]; then
+      return
+  elif [[ "$selection" = "Copied to Clipboard:"* ]]; then
+      echo $selection
+  elif [ -d "$selection" ]; then
+      cd "$selection" || exit
+  else
+      eval "$EDITOR $selection"
+  fi
+  
+}
+
+
+# Default: Files
+function f() {
+
+  # store the stdout of fzf in a variable
+  selection=$(fd --type f --color=never --hidden --no-ignore --exclude ".git" | fzf --multi --height=90% --border=rounded \
+  --preview='bat --color=always {}' --preview-window='45%,border-rounded' \
+  --prompt='Files 󰁱 ' \
+  --bind='del:become(rm -rI {+})' \
+  --bind='ctrl-y:become(wl-copy {+}; echo Copied to Clipboard: {+})' \
+  --bind='ctrl-p:toggle-preview' \
+  --bind='ctrl-d:change-prompt(Dirs 󰁱 )' \
+  --bind='ctrl-d:+reload(find -type d)' \
+  --bind='ctrl-d:+change-preview(tree -c -C {})' \
+  --bind='ctrl-d:+refresh-preview' \
+  --bind='ctrl-f:change-prompt(Files 󰁱 )' \
+  --bind='ctrl-f:+reload(fd --type f --color=never --hidden --no-ignore --exclude ".git")' \
+  --bind='ctrl-f:+change-preview(bat --color=always {})' \
+  --bind='ctrl-f:+refresh-preview' \
+  --bind='ctrl-a:select-all' \
+  --bind='ctrl-x:deselect-all' \
+  --header-first \
+  --header ' C-d:Dirs | C-f:Files | C-p:Preview
+ C-a:All | C-x:None | C-y:Copy | DEL
+    '
+  )
+
+
+  # determine what to do depending on the selection
+  if [ -z "$selection" ]; then
+      return
+  elif [[ "$selection" = "Copied to Clipboard:"* ]]; then
+      echo $selection
+  elif [ -d "$selection" ]; then
+      cd "$selection" || exit
+  else
+      eval "$EDITOR $selection"
+  fi
+  
+}
+

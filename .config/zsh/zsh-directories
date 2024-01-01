@@ -5,7 +5,7 @@ setopt PUSHD_IGNORE_DUPS    # Do not store duplicates in the stack.
 setopt PUSHD_SILENT         # Do not print the directory stack after pushd or popd.
 
 # alias to display the stack
-alias d='dirs -v'
+alias c='dirs -v'
 
 # alias from 1-9 to jump directly to the stack
 for index ({1..9}) alias "$index"="cd +${index}"; unset index
