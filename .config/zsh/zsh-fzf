@@ -41,6 +41,7 @@ export FZF_COMPLETION_DIR_COMMANDS="cd pushd rmdir tree ls"
 # Sourching fzf for zsh 
 [ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
 [ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
+[ -f /usr/share/fzf/shell/key-bindings.zsh ] && source /usr/share/fzf/shell/key-bindings.zsh
 [ -f /usr/share/doc/fzf/examples/completion.zsh ] && source /usr/share/doc/fzf/examples/completion.zsh
 [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ] && source /usr/share/doc/fzf/examples/key-bindings.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -48,6 +49,7 @@ export FZF_COMPLETION_DIR_COMMANDS="cd pushd rmdir tree ls"
 
 
 # FZF File Manager Functions
+# concept from https://thevaluable.dev/practical-guide-fzf-example/
 
 # Default: Directories
 function d() {

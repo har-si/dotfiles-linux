@@ -3,7 +3,7 @@
 
 ## Initial Setup and System Update
 
-1. Update DNF configuration found in `/etc/dnf/dnf.conf` and add the following `max_parallel_downloads=10` and `fastestmirror=True`.
+1. Update DNF configuration found in `/etc/dnf/dnf.conf` and add the following `max_parallel_downloads=10` `fastestmirror=True` `defaultyes=True`.
 
 1. Update your system `sudo dnf update && sudo dnf upgrade`
 
@@ -60,11 +60,11 @@
 
 1. Install `GNOME Tweaks` `GNOME Extensions App` from DNF
 
-1. Install `Gnome Extensions Manager` `Gradience` `Flatseal` `dconf-editor` `bottles` from Flathub
+1. Install `Gnome Extensions Manager` `Gradience` `Flatseal` `dconf-editor` `bottles` `libreoffice` `okular` `calibre` `blankets` from Flathub
 
 1. Install TLP (laptop battery optimization) using this `sudo dnf install tlp tlp-rdw`
 
-1. Install packages: `sudo dnf install zsh fzf bat ripgrep lsd fd-find btop neovim vim vlc openssl calibre tldr`
+1. Install packages: `sudo dnf install zsh fzf bat ripgrep lsd fd-find btop neovim vim vlc openssl tldr imv zathura zathura-plugins-all`
 
 1. Install Helix, Marksman LSP, Glow MD Viewer (follow instructions from website)
     - Helix: download using COPR
@@ -76,6 +76,27 @@
 1. Install other fonts (nerd fonts, fira code, jet brains)
     - download .ttf file from websites and copy to `~/.local/share/fonts`
     - refresh font cache `fc-cache -v`
+
+---
+
+## When to install flatpak, dnf, or other repo
+  - use flatpak if:
+    * User applications
+    * GUI apps
+    * Maintainers in flathub can be trusted (actual developers)
+    * Needs proprietary drivers (firefox)
+    * Proprietary apps (discord, spotify)
+    * Application does NOT need to access system resources (sandboxed nature)
+  - Use DNF if:
+    * System applications
+    * CLI apps
+    * Packages in DNF are already curated by the maintainers
+    * Apps having permission problems with flatpak
+    * Apps need to access system resources
+    * Apps that sometimes need sudo permission (text editors)
+  - Other Repos:
+    * Packages not available on flatpak and DNF
+    * Maintainers can be trusted
 
 ---
 
