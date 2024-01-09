@@ -1,6 +1,7 @@
-
+# FZF Default Command
 export FZF_DEFAULT_COMMAND='fd . --color=never --hidden --no-ignore --exclude ".git"'
 
+# Initialize Color Variable
 FZF_COLORS="bg+:-1,\
 fg:gray,\
 fg+:white,\
@@ -14,6 +15,7 @@ marker:red,\
 prompt:white,\
 hl+:red"
 
+# FZF Default Options
 export FZF_DEFAULT_OPTS="--multi \
 --height=60% \
 --min-height=10 \
@@ -26,10 +28,12 @@ export FZF_DEFAULT_OPTS="--multi \
 --marker=''"
 
 
+# FZF CTRL+T Default Command and Options
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS="--preview 'bat --color=always --line-range :50 {}'"
 
 
+# FZF ALT+C Default Command and Options
 export FZF_ALT_C_COMMAND='fd --type d . --color=never --hidden'
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -n 50'"
 
@@ -85,7 +89,7 @@ function d() {
   elif [ -d "$selection" ]; then
       cd "$selection" || exit
   else
-      eval "$EDITOR $selection"
+      xdg-open "$selection"
   fi
   
 }
@@ -126,7 +130,7 @@ function f() {
   elif [ -d "$selection" ]; then
       cd "$selection" || exit
   else
-      eval "$EDITOR $selection"
+      xdg-open "$selection"
   fi
   
 }
