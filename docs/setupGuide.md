@@ -64,7 +64,7 @@
 
 1. Install TLP (laptop battery optimization) using this `sudo dnf install tlp tlp-rdw`
 
-1. Install packages: `sudo dnf install zsh fzf bat ripgrep lsd fd-find btop neovim vim vlc openssl tldr imv zathura zathura-plugins-all`
+1. Install packages: `sudo dnf install zsh fzf bat ripgrep lsd fd-find btop neovim vim vlc openssl tldr imv zathura zathura-plugins-all neofetch firewall-config`
 
 1. Install Helix, Marksman LSP, Glow MD Viewer (follow instructions from website)
     - Helix: download using COPR
@@ -106,3 +106,32 @@
 1. Choose the new folder and check `Move the current library to new location`
 
 ---
+
+## Update MIME Type for Default Apps
+1. Run the bash script: `~/.local/bin/mimeDeault.sh`
+    - Make the bash script executable: `chmod +x mimeDefault.sh`
+    - You can change the default app by changing the .desktop file variable 
+    - You can find the .desktop file at `/usr/share/applications`
+    - To check for file type of selected file: `xdg-mime query filetype [FileName]`
+    - To check for default app: `xdg-mime query default [file/type]`
+    - To change default app: `xdg-mime default [.desktop] [file/type]`
+
+---
+
+## Make LibreOffice compatible with MS Office
+1. Change how LibreOffice looks:
+    - Change User Interface to Tabbed
+    - Change system icons to Sukapura SVG+Dark (MainMenu>Options>View)
+1. Add Microsoft Fonts (see above)
+1. Change the default fonts to MS Fonts like Calibri (MainMenu>Options>LibreOfficeWriter>BasicFonts)
+1. Improve file compatibility
+    - MainMenu>Options>Load/Save>MicrosoftOffice: Check all items
+    - MainMenu>Options>LibreOfficeWriter>Compatibility: Check the following:
+        * Reorganize Form Menu for Microsoft compatibility
+        * Word-Compatible Trailing Blanks > Use as Default
+    
+---
+
+## Custom Gnome-Terminal Profile
+1. Follow the instructions at <https://github.com/Gogh-Co/Gogh> 
+1. After downloading themes, set the desired profile and change the font and transparency of the terminal. 

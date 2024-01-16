@@ -10,6 +10,7 @@ DEFAULT_VIDEO="mpv.desktop"
 DEFAULT_AUDIO="org.gnome.Rhythmbox3.desktop"
 DEFAULT_PDF="org.pwmt.zathura.desktop"
 DEFAULT_FILE="org.kde.okular.desktop"
+DEFAULT_FILEMAN="org.gnome.Nautilus.desktop"
 
 # Function to update default applications
 update_default_app() {
@@ -58,6 +59,7 @@ if [ "$choice" = "y" ]; then
     update_default_app text/css $DEFAULT_EDITOR
     update_default_app application/json $DEFAULT_EDITOR
     update_default_app application/x-yaml $DEFAULT_EDITOR
+    update_default_app application/x-zerosize $DEFAULT_EDITOR
     update_default_app text/html $DEFAULT_BROWSER
     update_default_app text/xml $DEFAULT_BROWSER
     update_default_app image/jpeg $DEFAULT_IMAGE
@@ -81,6 +83,7 @@ if [ "$choice" = "y" ]; then
     update_default_app application/pdf $DEFAULT_PDF
     update_default_app application/epub+zip $DEFAULT_FILE
     update_default_app application/vnd.amazon.ebook $DEFAULT_FILE
+    update_default_app inode/directory $DEFAULT_FILEMAN
 
     # Text to indicate operation is complete
     echo

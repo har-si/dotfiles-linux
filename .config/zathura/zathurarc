@@ -51,7 +51,7 @@ set highlight-color             "#fabd2f" # bright:yellow
 set highlight-active-color      "#fe8019" # bright:orange
 
 # set default-bg                  "#1d2021" # bg
-set default-bg			rgba(0,0,0,0.7) #bg # set Transparent Background
+set default-bg			rgba(0,0,0,0.85) #bg # set Transparent Background
 # set default-fg                  "#ebdbd2" # fg  # original color
 set default-fg                  "#98971A" # fg   # temporary fix because title bar is light color
 set render-loading              true

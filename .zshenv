@@ -5,7 +5,7 @@ export TERMINAL="gnome-terminal"
 export BROWSER="brave-brower"
 export MANPAGER="less -R --use-color -Dd+r -Du+b"
 # export MANPAGER='nvim +Man!'
-export GUIFILEMAN="nautilus"
+
 
 # Exports to $PATH
 if [ -d "$HOME/Applications" ] ;
@@ -20,16 +20,22 @@ if [ -d "$HOME/.bin" ] ;
   then PATH="$HOME/.bin:$PATH"
 fi
 
+if [ -d "$HOME/bin" ] ;
+  then PATH="$HOME/bin:$PATH"
+fi
+
 # Adds ~/.local/bin and subfolders to $PATH
 if [ -d "$HOME/.local/bin" ] ;
   then export PATH="${$(find ~/.local/bin -maxdepth 1 -type d -printf %p:)%%:}:$PATH"
 fi
+
 
 # cleaning up home folder (XDG)
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_STATE_HOME="$HOME/.local/state"
 export XDG_CACHE_HOME="$HOME/.cache"
+
 
 # Other apps
 export WINEPREFIX="$XDG_DATA_HOME"/wine
@@ -44,6 +50,7 @@ export HISTFILE="$ZDOTDIR/.zhistory"    # History filepath
 export HISTSIZE=10000                   # Maximum events for internal history
 export SAVEHIST=10000                   # Maximum events in history file
 export HISTORY_IGNORE="(ls|la|ll|lt|l1|c|1|2|3|4|5|6|7|8|9|d|f|cd|pwd|exit|sudo reboot|history|cd -|cd ..)"
+
 
 # lf icons
 export LF_ICONS="\
