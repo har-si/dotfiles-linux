@@ -68,7 +68,7 @@ zstyle ':vcs_info:git:*' formats " %F{4}[%F{1}%m%u%c%F{3}%F{5} %b%F{4}]"
 NEWLINE=$'\n'       #new line variable
 
 # Main Prompt
-PROMPT="%B%F{4}[%F{1}%n%F{4}󰁥%F{1}%m%F{4}] %F{4}[%F{14} %1~%F{4}]%f"
+PROMPT="%B%F{4}[%F{1}%n%F{4}󰁥%F{1}%m%F{4}] %F{4}[%F{14} %2~%F{4}]%f"
 PROMPT+="\$vcs_info_msg_0_ "    #Append the git status info function 
 PROMPT+="${NEWLINE}"
 PROMPT+="%(?:%{$fg_bold[green]%}󰁱 :%{$fg_bold[red]%}󰁱 )"  #Append the arrow icon with last command status
