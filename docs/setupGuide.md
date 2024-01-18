@@ -135,3 +135,13 @@
 ## Custom Gnome-Terminal Profile
 1. Follow the instructions at <https://github.com/Gogh-Co/Gogh> 
 1. After downloading themes, set the desired profile and change the font and transparency of the terminal. 
+
+---
+
+## Install language servers
+1. Recommended language servers to install
+    |Language    |LSP                  |RPM Repo Package Name    |
+    |------------|---------------------|-------------------------|
+    |Markdown    |Marksman             |(See above)              |
+    |Bash        |bash-language-server |bash-language-server     |
+    |C/CPP       |clangd               |clang-tools-extra & clang|

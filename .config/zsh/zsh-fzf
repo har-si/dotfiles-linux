@@ -58,9 +58,12 @@ export FZF_COMPLETION_DIR_COMMANDS="cd pushd rmdir tree ls"
 # Default: Directories
 function d() {
 
+  local queryargd
+  queryargd=$(echo "$@")  
+
   # store the stdout of fzf in a variable
   selection=$(fd --type d --color=never --hidden --no-ignore --exclude ".git" | fzf --multi --height=90% --border=rounded \
-  --preview='tree -c -C {}' --preview-window='45%,border-rounded' \
+  --preview='tree -c -C -a {}' --preview-window='45%,border-rounded' \
   --prompt='Dirs 󰁱 ' \
   --bind='del:become(rm -rI {+})' \
   --bind='ctrl-y:become(wl-copy {+}; echo Copied to Clipboard: {+})' \
@@ -75,6 +78,7 @@ function d() {
   --bind='ctrl-f:+refresh-preview' \
   --bind='ctrl-a:select-all' \
   --bind='ctrl-x:deselect-all' \
+  --query="$queryargd" \
   --header-first \
   --header ' C-d:Dirs | C-f:Files | C-p:Preview
  C-a:All | C-x:None | C-y:Copy | DEL
@@ -87,7 +91,7 @@ function d() {
   elif [[ "$selection" = "Copied to Clipboard:"* ]]; then
       echo $selection
   elif [ -d "$selection" ]; then
-      cd "$selection" || exit
+      cd "$selection" || return
   else
       xdg-open "$selection"
   fi
@@ -98,6 +102,9 @@ function d() {
 # Default: Files
 function f() {
 
+  local queryargf
+  queryargf=$(echo "$@")  
+
   # store the stdout of fzf in a variable
   selection=$(fd --type f --color=never --hidden --no-ignore --exclude ".git" | fzf --multi --height=90% --border=rounded \
   --preview='bat --color=always {}' --preview-window='45%,border-rounded' \
@@ -107,7 +114,7 @@ function f() {
   --bind='ctrl-p:toggle-preview' \
   --bind='ctrl-d:change-prompt(Dirs 󰁱 )' \
   --bind='ctrl-d:+reload(find -type d)' \
-  --bind='ctrl-d:+change-preview(tree -c -C {})' \
+  --bind='ctrl-d:+change-preview(tree -c -C -a {})' \
   --bind='ctrl-d:+refresh-preview' \
   --bind='ctrl-f:change-prompt(Files 󰁱 )' \
   --bind='ctrl-f:+reload(fd --type f --color=never --hidden --no-ignore --exclude ".git")' \
@@ -115,6 +122,7 @@ function f() {
   --bind='ctrl-f:+refresh-preview' \
   --bind='ctrl-a:select-all' \
   --bind='ctrl-x:deselect-all' \
+  --query="$queryargf" \
   --header-first \
   --header ' C-d:Dirs | C-f:Files | C-p:Preview
  C-a:All | C-x:None | C-y:Copy | DEL
@@ -128,7 +136,7 @@ function f() {
   elif [[ "$selection" = "Copied to Clipboard:"* ]]; then
       echo $selection
   elif [ -d "$selection" ]; then
-      cd "$selection" || exit
+      cd "$selection" || return
   else
       xdg-open "$selection"
   fi
