@@ -64,7 +64,8 @@
 
 1. Install TLP (laptop battery optimization) using this `sudo dnf install tlp tlp-rdw`
 
-1. Install packages: `sudo dnf install zsh fzf bat ripgrep lsd fd-find btop neovim vim vlc openssl tldr imv zathura zathura-plugins-all neofetch firewall-config`
+1. Install packages: `sudo dnf install zsh fzf bat ripgrep lsd fd-find btop neovim vim vlc openssl tldr imv zathura zathura-plugins-all 
+neofetch firewall-config atool ffmpegthumbnailer chafa poppler-utils`
 
 1. Install Helix, Marksman LSP, Glow MD Viewer (follow instructions from website)
     - Helix: download using COPR
@@ -145,3 +146,16 @@
     |Markdown    |Marksman             |(See above)              |
     |Bash        |bash-language-server |bash-language-server     |
     |C/CPP       |clangd               |clang-tools-extra & clang|
+
+---
+
+## Change default terminal from gnome-terminal to kitty
+1. Change the binary of gnome terminal to kitty (symlink)
+    > sudo mv /usr/bin/gnome-terminal /usr/bin/gnome-terminal.bak
+    > sudo ln -s /usr/bin/kitty /usr/bin/gnome-terminal
+1. Changee the /usr/share/applications/gnome-terminal.desktop
+    * Create a backup first `mv gnome-terminal.desktop gnome-terminal.desktop.bak`
+    * Edit the .desktop entry of gnome-terminal (need sudo)
+    * Delete `Actions=new-window;preferences;` line under `[Desktop Entry]` 
+    * Delete everything under `[Desktop Action new-window]` and `[Desktop Action preferences]`
+    

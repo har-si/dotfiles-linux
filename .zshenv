@@ -1,7 +1,7 @@
 # default apps
 export EDITOR="hx"
 export VISUAL="hx"
-export TERMINAL="gnome-terminal"
+export TERMINAL="kitty"
 export BROWSER="brave-brower"
 export MANPAGER="less -R --use-color -Dd+r -Du+b"
 # export MANPAGER='nvim +Man!'

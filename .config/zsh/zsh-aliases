@@ -30,6 +30,7 @@ alias bc="bc -ql"
 alias mkdir="mkdir -pv"
 alias rsync='rsync --progress -v'
 alias bat='bat --color=always'
+alias o="xdg-open"
 
 # get fastest mirrors for Arch
 alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"
@@ -42,3 +43,6 @@ alias jctl="journalctl -p 3 -xb"
 
 # Disown processes from terminal
 alias dis="1>/null/dev 2>/null/dev & disown"
+
+# Kitty image preview
+alias icat="kitten icat"
