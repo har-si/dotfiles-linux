@@ -60,8 +60,11 @@ if [ "$choice" = "y" ]; then
     update_default_app application/json $DEFAULT_EDITOR
     update_default_app application/x-yaml $DEFAULT_EDITOR
     update_default_app application/x-zerosize $DEFAULT_EDITOR
+    update_default_app application/x-shellscript $DEFAULT_EDITOR
+    update_default_app application/x-trash $DEFAULT_EDITOR
     update_default_app text/html $DEFAULT_BROWSER
     update_default_app text/xml $DEFAULT_BROWSER
+    update_default_app application/xml $DEFAULT_BROWSER
     update_default_app image/jpeg $DEFAULT_IMAGE
     update_default_app image/gif $DEFAULT_IMAGE
     update_default_app image/bmp $DEFAULT_IMAGE
@@ -83,6 +86,7 @@ if [ "$choice" = "y" ]; then
     update_default_app application/pdf $DEFAULT_PDF
     update_default_app application/epub+zip $DEFAULT_FILE
     update_default_app application/vnd.amazon.ebook $DEFAULT_FILE
+    update_default_app application/x-mobipocket-ebook $DEFAULT_FILE
     update_default_app inode/directory $DEFAULT_FILEMAN
 
     # Text to indicate operation is complete

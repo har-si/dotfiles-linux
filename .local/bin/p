@@ -1,0 +1,246 @@
+#! /usr/bin/env bash
+
+
+## Meanings of exit codes:
+## code | meaning    
+## -----+---------------------------
+## 0    | success    
+## 1    | no preview 
+## 2    | error in executing command
+## 3    | failed to preview image
+## 4    | invalid arguments
+## 5    | failed to create temp file      
+
+
+########################## F U N C T I O N S ##########################
+
+
+validate_arguments() {
+    # check validity of arguments before proceeding
+
+    #Error Message for invalid arguments
+    local err_arg
+    err_arg="Invalid Arguments
+Usage: p [path/filename.ext]
+     : p [path/filename.ext] [fzf] [\${FZF_PREVIEW_COLUMNS}] [\${FZF_PREVIEW_LINES}]"
+    
+    # Check the first argument (should be a valid path)
+    if [ -z "$1" ]; then
+        echo "$err_arg"
+        exit 4
+
+    elif [ ! -e "$1" ]; then
+        echo "$err_arg"
+        exit 4
+    fi
+
+    # Check the second argument (should be blank of fzf)
+    if [ -n "$2" ] && [ "$2" != "fzf" ]; then
+        echo "$err_arg"
+        exit 4
+    fi
+
+    # Check the third and fourth arguments (should be blank or whole digits)
+    if [[ -n "$3" && ! "$3" =~ ^[0-9]+$ ]] || [[ -n "$4" && ! "$4" =~ ^[0-9]+$ ]]; then
+        echo "$err_arg"
+        exit 4
+    fi
+}
+
+
+
+
+gen_temp_img() {
+    # Generate temp png file at /tmp
+
+    # Use trap to delete temp file before script exit
+    trap 'rm -f "$temp_img"' EXIT
+    # Generate temp file
+    temp_img=$(mktemp -t XXXXXXXX.png) || exit 5
+    return
+}
+
+
+
+
+img_prev(){
+    # Function to output image preview from different sources
+
+    # If $2 is empty, use normal icat. If for fzf, use icat syntax suggested by fzf docs.
+    if [ -z "$2" ]; then
+        kitten icat --align=left --transfer-mode=memory "$1" || exit 2
+        exit 0
+    elif [ "$2" = "fzf" ]; then
+        # from https://github.com/junegunn/fzf/blob/master/bin/fzf-preview.sh
+        kitty icat --clear --transfer-mode=memory --unicode-placeholder --stdin=no --place="$3x$4@0x0" "$1" | sed '$d' | sed $'$s/$/\e[m/'
+        exit 0
+    else 
+        echo "Invalid $2 Argument!"
+        exit 2
+    fi
+  
+}
+
+
+########################## M A I N ##########################
+
+# Call the function with the provided arguments
+validate_arguments "$1" "$2" "$3" "$4"
+
+
+# Query mime type of the selected file and store in a variable
+mimetype=$(xdg-mime query filetype "$1")
+
+
+case "$mimetype" in
+  inode/directory) 
+    lsd -A --color=always --group-directories-first --icon=always -1 "$1" && exit 0
+    exit 1
+    ;;
+
+  text/markdown)
+    glow -s dark "$1" && exit 0
+    exit 1
+    ;;
+
+  text/html)
+    w3m -dump "$1" && exit 0
+    exit 1
+    ;;
+
+  text/xml|application/xml|application/x-yaml|application/x-zerosize|application/x-shellscript|application/x-trash)
+    bat --color=always "$1" && exit 0
+    exit 1
+    ;;  
+
+  text/*)
+    bat --color=always "$1" && exit 0
+    exit 1
+    ;;
+
+  image/*)
+    img_prev "$1" "$2" "$3" "$4" && exit 0
+    exit 1
+    ;;
+
+  application/pdf)
+    pdf_hash=/tmp/$(echo $RANDOM | md5sum | head -c 10)
+    pdf_filename="$pdf_hash".jpg
+    trap 'rm -f "$pdf_filename"' EXIT
+    # echo "$pdf_hash"
+    # echo "$pdf_filename"
+    pdftoppm -f 1 -l 1 -scale-to-x 720 -scale-to-y -1 -singlefile -jpeg -tiffcompression jpeg -- "$1" "$pdf_hash" || exit 2    
+    img_prev "$pdf_filename" "$2" "$3" "$4" && exit 0
+    exit 1
+    ;;
+
+  application/json)
+    jq -C . "$1" && exit 0
+    exit 1
+    ;;
+
+  video/*)
+    gen_temp_img || exit 2
+    ffmpegthumbnailer -i "$1" -o "$temp_img" -s 720 || exit 2
+    img_prev "$temp_img" "$2" "$3" "$4" && exit 0
+    exit 1
+    ;;
+
+  audio/*)
+    mediainfo "$1" && exit 0
+    exiftool "$1" && exit 0
+    exit 1
+    ;;
+
+esac
+
+
+
+# If no match for mime-type, proceed evaluating file extension
+# From Ranger's scope.sh
+
+# Get the lower file extension
+FILE_EXTENSION="${1##*.}"
+FILE_EXTENSION_LOWER="$(printf "%s" "${FILE_EXTENSION}" | tr '[:upper:]' '[:lower:]')"
+
+case "${FILE_EXTENSION_LOWER}" in
+    ## Archive
+    a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|\
+    rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)
+        atool --list -- "${1}" && exit 0
+        bsdtar --list --file "${1}" && exit 0
+        exit 1;;
+    rar)
+        ## Avoid password prompt by providing empty password
+        unrar lt -p- -- "${1}" && exit 0
+        exit 1;;
+    7z)
+        ## Avoid password prompt by providing empty password
+        7z l -p -- "${1}" && exit 0
+        exit 1;;
+
+    ## BitTorrent
+    torrent)
+        transmission-show -- "${1}" && exit 0
+        exit 1;;
+
+    ## OpenDocument
+    odt|sxw)
+        ## Preview as text conversion
+        odt2txt "${1}" && exit 0
+        ## Preview as markdown conversion
+        pandoc -s -t markdown -- "${1}" && exit 0
+        exit 1;;
+    ods|odp)
+        ## Preview as text conversion (unsupported by pandoc for markdown)
+        odt2txt "${1}" && exit 0
+        exit 1;;
+
+    ## XLSX
+    xlsx)
+        ## Preview as csv conversion
+        ## Uses: https://github.com/dilshod/xlsx2csv
+        xlsx2csv -- "${1}" && exit 0
+        exit 1;;
+
+    ## HTML
+    htm|html|xhtml)
+        ## Preview as text conversion
+        w3m -dump "${1}" && exit 0
+        lynx -dump -- "${1}" && exit 0
+        elinks -dump "${1}" && exit 0
+        pandoc -s -t markdown -- "${1}" && exit 0
+        exit 1
+        ;;
+
+    ## JSON
+    json)
+        jq --color-output . "${1}" && exit 0
+        python -m json.tool -- "${1}" && exit 0
+        exit 1
+        ;;
+
+    ## Jupyter Notebooks
+    ipynb)
+        jupyter nbconvert --to markdown "${1}" --stdout | env COLORTERM=8bit bat --color=always --style=plain --language=markdown && exit 0
+        jupyter nbconvert --to markdown "${1}" --stdout && exit 0
+        jq --color-output . "${1}" && exit 0
+        python -m json.tool -- "${1}" && exit 0
+        exit 1
+        ;;
+
+    ## Direct Stream Digital/Transfer (DSDIFF) and wavpack aren't detected
+    ## by file(1).
+    dff|dsf|wv|wvc)
+        mediainfo "${1}" && exit 0
+        exiftool "${1}" && exit 0
+        exit 1
+        ;; # Continue with next handler on failure
+
+    *)
+        exiftool "${1}" && exit 0
+        mediainfo "${1}" && exit 0
+        exit 1
+        ;; 
+esac
+

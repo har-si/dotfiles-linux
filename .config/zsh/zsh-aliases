@@ -45,4 +45,4 @@ alias jctl="journalctl -p 3 -xb"
 alias dis="1>/null/dev 2>/null/dev & disown"
 
 # Kitty image preview
-alias icat="kitten icat"
+alias icat="kitten icat --align=left"

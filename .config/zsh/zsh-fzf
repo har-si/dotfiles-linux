@@ -63,18 +63,17 @@ function d() {
 
   # store the stdout of fzf in a variable
   selection=$(fd --type d --color=never --hidden --no-ignore --exclude ".git" | fzf --multi --height=90% --border=rounded \
-  --preview='tree -c -C -a {}' --preview-window='45%,border-rounded' \
+  --preview='p {} "fzf" ${FZF_PREVIEW_COLUMNS} ${FZF_PREVIEW_LINES}' \
+  --preview-window='45%,border-rounded' \
   --prompt='Dirs 󰁱 ' \
   --bind='del:become(rm -rI {+})' \
   --bind='ctrl-y:become(wl-copy {+}; echo Copied to Clipboard: {+})' \
   --bind='ctrl-p:toggle-preview' \
   --bind='ctrl-d:change-prompt(Dirs 󰁱 )' \
   --bind='ctrl-d:+reload(find -type d)' \
-  --bind='ctrl-d:+change-preview(tree -c -C {})' \
   --bind='ctrl-d:+refresh-preview' \
   --bind='ctrl-f:change-prompt(Files 󰁱 )' \
   --bind='ctrl-f:+reload(fd --type f --color=never --hidden --no-ignore --exclude ".git")' \
-  --bind='ctrl-f:+change-preview(bat --color=always {})' \
   --bind='ctrl-f:+refresh-preview' \
   --bind='ctrl-a:select-all' \
   --bind='ctrl-x:deselect-all' \
@@ -107,18 +106,17 @@ function f() {
 
   # store the stdout of fzf in a variable
   selection=$(fd --type f --color=never --hidden --no-ignore --exclude ".git" | fzf --multi --height=90% --border=rounded \
-  --preview='bat --color=always {}' --preview-window='45%,border-rounded' \
+  --preview='p {} "fzf" ${FZF_PREVIEW_COLUMNS} ${FZF_PREVIEW_LINES}' \
+  --preview-window='45%,border-rounded' \
   --prompt='Files 󰁱 ' \
   --bind='del:become(rm -rI {+})' \
   --bind='ctrl-y:become(wl-copy {+}; echo Copied to Clipboard: {+})' \
   --bind='ctrl-p:toggle-preview' \
   --bind='ctrl-d:change-prompt(Dirs 󰁱 )' \
   --bind='ctrl-d:+reload(find -type d)' \
-  --bind='ctrl-d:+change-preview(tree -c -C -a {})' \
   --bind='ctrl-d:+refresh-preview' \
   --bind='ctrl-f:change-prompt(Files 󰁱 )' \
   --bind='ctrl-f:+reload(fd --type f --color=never --hidden --no-ignore --exclude ".git")' \
-  --bind='ctrl-f:+change-preview(bat --color=always {})' \
   --bind='ctrl-f:+refresh-preview' \
   --bind='ctrl-a:select-all' \
   --bind='ctrl-x:deselect-all' \
