@@ -17,7 +17,7 @@ hl+:red"
 
 # FZF Default Options
 export FZF_DEFAULT_OPTS="--multi \
---height=60% \
+--height=90% \
 --min-height=10 \
 --margin=3% \
 --border=rounded \
@@ -30,12 +30,12 @@ export FZF_DEFAULT_OPTS="--multi \
 
 # FZF CTRL+T Default Command and Options
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_CTRL_T_OPTS="--preview 'bat --color=always --line-range :50 {}'"
+export FZF_CTRL_T_OPTS="--preview='p {} "fzf" ${FZF_PREVIEW_COLUMNS} ${FZF_PREVIEW_LINES}' --preview-window='45%,border-rounded'"
 
 
 # FZF ALT+C Default Command and Options
 export FZF_ALT_C_COMMAND='fd --type d . --color=never --hidden'
-export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -n 50'"
+export FZF_ALT_C_OPTS="--preview='p {} "fzf" ${FZF_PREVIEW_COLUMNS} ${FZF_PREVIEW_LINES}' --preview-window='45%,border-rounded'"
 
 
 export FZF_COMPLETION_DIR_COMMANDS="cd pushd rmdir tree ls"
