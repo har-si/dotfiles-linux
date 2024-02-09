@@ -65,7 +65,8 @@
 1. Install TLP (laptop battery optimization) using this `sudo dnf install tlp tlp-rdw`
 
 1. Install packages: `sudo dnf install zsh fzf bat ripgrep lsd fd-find btop neovim vim vlc openssl tldr imv zathura zathura-plugins-all \
-neofetch firewall-config atool ffmpegthumbnailer chafa poppler-utils w3m perl-Image-ExifTool ImageMagick unrar p7zip-plugins odt2txt transmission-common`
+neofetch firewall-config atool ffmpegthumbnailer chafa poppler-utils w3m perl-Image-ExifTool ImageMagick unrar p7zip-plugins odt2txt transmission-common \
+nmtui trash-cli ncdu`
 
 1. Install Helix, Marksman LSP, Glow MD Viewer (follow instructions from website)
     - Helix: download using COPR
@@ -77,6 +78,8 @@ neofetch firewall-config atool ffmpegthumbnailer chafa poppler-utils w3m perl-Im
 1. Install other fonts (nerd fonts, fira code, jet brains)
     - download .ttf file from websites and copy to `~/.local/share/fonts`
     - refresh font cache `fc-cache -v`
+
+1. Nice to have packages: `sudo dnf install lolcat cmatrix cowsay figlet asciiquarium sl fortune-mod toilet oneko cava` and pipes.sh
 
 ---
 
@@ -159,4 +162,14 @@ neofetch firewall-config atool ffmpegthumbnailer chafa poppler-utils w3m perl-Im
     * Edit the .desktop entry of gnome-terminal (need sudo)
     * Delete `Actions=new-window;preferences;` line under `[Desktop Entry]` 
     * Delete everything under `[Desktop Action new-window]` and `[Desktop Action preferences]`
-    
+
+---
+
+## Theming Gnome Shell
+1. Download GTK Themes from gnome-look.org
+1. Extract and store in `~/.themes` or `~/.icons`
+1. Open Gnome Tweaks and change the desired themes and icons
+1. Open User Themes Extension settings and set the desired themes
+1. Copy and replace the GTK-4.0 folder files from the themes folder to `~/.config/gtk-4.0`
+1. For blur effects, edit the Blur-My-Shell settings (panel, application, overview)
+1. For gaps, use Tiling Assistant Extension to add gaps, maximize windows, and Tiling State
