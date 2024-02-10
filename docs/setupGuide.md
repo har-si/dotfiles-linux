@@ -173,3 +173,12 @@ nmtui trash-cli ncdu`
 1. Copy and replace the GTK-4.0 folder files from the themes folder to `~/.config/gtk-4.0`
 1. For blur effects, edit the Blur-My-Shell settings (panel, application, overview)
 1. For gaps, use Tiling Assistant Extension to add gaps, maximize windows, and Tiling State
+
+---
+
+## Neofetch Themes
+1. Download prebuilt themes from the following repositories:
+    * https://github.com/chick2d/neofetch-themes
+    * https://github.com/m3tozz/NeoCat?tab=readme-ov-file
+1. Replace the `~/.config/neofetch/config.conf` with your desired configuration
+1. Dot Art Generator: `https://emojicombos.com/dot-art-generator`
