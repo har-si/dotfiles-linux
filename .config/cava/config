@@ -1,0 +1,46 @@
+## Configuration file for CAVA. Default values are commented out. Use either ';' or '#' for commenting.
+## Generate gradient color from the following:
+## https://colordesigner.io/gradient-generator
+## https://mycolor.space/
+
+
+[output]
+method = ncurses
+
+[color]
+gradient = 1
+
+
+## Gruvbox (Green to Yellow to Red)
+gradient_count = 8
+gradient_color_1 = '#98971a'
+gradient_color_2 = '#a49818'
+gradient_color_3 = '#af9917'
+gradient_color_4 = '#c7991b'
+gradient_color_5 = '#d28913'
+gradient_color_6 = '#d66e0f'
+gradient_color_7 = '#d14217'
+gradient_color_8 = '#cc241d'
+
+
+## Default (Green to Red)
+; gradient_count = 8
+; gradient_color_1 = '#59cc33'
+; gradient_color_2 = '#80cc33'
+; gradient_color_3 = '#a6cc33'
+; gradient_color_4 = '#cccc33'
+; gradient_color_5 = '#cca633'
+; gradient_color_6 = '#cc8033'
+; gradient_color_7 = '#cc5933'
+; gradient_color_8 = '#cc3333'
+
+
+## Catppuccin Machiato
+; gradient_color_1 = '#8bd5ca'
+; gradient_color_2 = '#91d7e3'
+; gradient_color_3 = '#7dc4e4'
+; gradient_color_4 = '#8aadf4'
+; gradient_color_5 = '#c6a0f6'
+; gradient_color_6 = '#f5bde6'
+; gradient_color_7 = '#ee99a0'
+; gradient_color_8 = '#ed8796'
