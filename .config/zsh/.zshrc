@@ -127,3 +127,5 @@ bindkey -M menuselect 'j' vi-down-line-or-history
 bindkey -M menuselect '\t' accept-search
 bindkey -M menuselect '\r' .accept-line
 bindkey -M menuselect "$terminfo[kcbt]" undo
+
+neofetch

@@ -182,3 +182,10 @@ nmtui trash-cli ncdu`
     * https://github.com/m3tozz/NeoCat?tab=readme-ov-file
 1. Replace the `~/.config/neofetch/config.conf` with your desired configuration
 1. Dot Art Generator: `https://emojicombos.com/dot-art-generator`
+
+---
+
+## Radiogogo setup (TUI FM radio streaming)
+1. install Golang `sudo dnf install golang`
+1. Follow installation guide at https://github.com/matteo-pacini/RadioGoGo
+1. Add Go binary path to $PATH (set as alias on .zshrc to add path when launching radiogogo)

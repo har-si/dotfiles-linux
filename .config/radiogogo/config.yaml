@@ -1,0 +1,10 @@
+playbackEngine: mpv
+
+# Gruvbox Color Scheme
+theme:
+    textColor: '#98971a'        # Green
+    primaryColor: '#fabd2f'     # Yellow
+    secondaryColor: '#fabd2f'   # Yellow
+    tertiaryColor: '#458588'    # Blue
+    errorColor: '#cc241d'       # Red
+
