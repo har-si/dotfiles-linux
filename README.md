@@ -1,2 +1,2 @@
-# dotfiles-silverblue
-My dotfiles for Fedora Silverblue
+# dotfiles-linux
+My dotfiles for Fedora x Gnome
