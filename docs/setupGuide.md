@@ -66,7 +66,7 @@
 
 1. Install packages: `sudo dnf install zsh fzf bat ripgrep lsd fd-find btop neovim vim vlc openssl tldr imv zathura zathura-plugins-all \
 neofetch firewall-config atool ffmpegthumbnailer chafa poppler-utils w3m perl-Image-ExifTool ImageMagick unrar p7zip-plugins odt2txt transmission-common \
-nmtui trash-cli ncdu`
+nmtui trash-cli ncdu seahorse`
 
 1. Install Helix, Marksman LSP, Glow MD Viewer (follow instructions from website)
     - Helix: download using COPR
