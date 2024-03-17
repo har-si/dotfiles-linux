@@ -47,5 +47,3 @@ alias dis="1>/null/dev 2>/null/dev & disown"
 # Kitty image preview
 alias icat="kitten icat --align=left"
 
-# Radiogogo
-alias radio="export PATH=$PATH:$(go env GOPATH)/bin && radiogogo"

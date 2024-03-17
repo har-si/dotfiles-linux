@@ -1,0 +1,12 @@
+#! /usr/bin/env bash
+
+errormsg(){
+    echo "Install radiogogo: https://github.com/matteo-pacini/RadioGoGo"
+    exit 1
+  }
+
+ 
+export PATH=$PATH:$(go env GOPATH)/bin || errormsg;
+radiogogo || errormsg;
+exit 0
+
