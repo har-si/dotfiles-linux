@@ -69,8 +69,8 @@ neofetch firewall-config atool ffmpegthumbnailer chafa poppler-utils w3m perl-Im
 nmtui trash-cli ncdu seahorse`
 
 1. Install Helix, Marksman LSP, Glow MD Viewer (follow instructions from website)
-    - Helix: download using COPR
-    - Marksman: download binaries and store at ~/.local/bin and make it executable
+    - Helix: install from dnf `sudo dnf install helix`
+    - Marksman: download binaries and store at ~/.local/bin and make it executable. Rename the binaries to `marksman`
     - Glow: download binaries and save at ~/.local/bin and make it executable 
 
 1. Install MS Fonts (follow instructions on web to install on Fedora)
