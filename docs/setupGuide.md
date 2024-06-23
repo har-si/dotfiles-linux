@@ -189,3 +189,14 @@ nmtui trash-cli ncdu seahorse`
 1. install Golang `sudo dnf install golang`
 1. Follow installation guide at https://github.com/matteo-pacini/RadioGoGo
 1. Add Go binary path to $PATH (set as alias on .zshrc to add path when launching radiogogo)
+
+---
+
+## Browser (Brave) Setup
+1. Extensions:
+    * Vimium C
+    * uBlock Origin
+    * Dark Reader
+    * Unhook - Remove YouTube Recommended & Shorts
+    * Bitwarden
+1. uBlock Origin to block all youtube shorts: <https://github.com/gijsdev/ublock-hide-yt-shorts/tree/master>
