@@ -175,3 +175,4 @@ To export only the sub keys, use `--export-secret-subkeys` flag. This will expor
   * Managing keys (including QR Code back up) by [John Del Rosario](https://john2x.com/blog/managing-pgp-keys.html)
   * PGP for developers [Linux.com](https://www.linux.com/news/protecting-code-integrity-pgp-part-1-basic-pgp-concepts-and-tools/)
   * GIT and SSH Support [Git and SSH Support](https://www.linux.com/news/protecting-code-integrity-pgp-part-6-using-pgp-git/)
+  * GPG Config best practices [riseup gpg best practices](https://help.riseup.net/en/security/message-security/openpgp/best-practices)
