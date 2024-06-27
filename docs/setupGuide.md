@@ -60,7 +60,7 @@
 
 1. Install `GNOME Tweaks` `GNOME Extensions App` from DNF
 
-1. Install `Gnome Extensions Manager` `Gradience` `Flatseal` `dconf-editor` `bottles` `libreoffice` `okular` `calibre` `blankets` from Flathub
+1. Install `Gnome Extensions Manager` `Gradience` `Flatseal` `dconf-editor` `bottles` `libreoffice` `okular` `calibre` `blankets` `ascii draw` `kleopatra` `shortwave` `bitwarden` `yubico authenticator` from Flathub
 
 1. Install TLP (laptop battery optimization) using this `sudo dnf install tlp tlp-rdw`
 
