@@ -1,0 +1,215 @@
+#!/bin/bash
+
+# Global Variables
+BASE_MOUNT_POINT="/mnt/usb"
+LUKS_BASE_NAME="luks_device"
+
+# Function to generate a unique LUKS name
+generate_luks_name() {
+    local base_name="$LUKS_BASE_NAME"
+    local count=1
+    
+    while cryptsetup status "${base_name}${count}" >/dev/null 2>&1; do
+        count=$((count + 1))
+    done
+    
+    printf "%s%s" "$base_name" "$count"
+}
+
+# Function to find an available mount point
+find_mount_point() {
+    local count=1
+    
+    while mountpoint -q "${BASE_MOUNT_POINT}${count}"; do
+        count=$((count + 1))
+    done
+    
+    printf "%s%s" "$BASE_MOUNT_POINT" "$count"
+}
+
+# Function to encrypt a device with LUKS and format to Btrfs
+encrypt_device() {
+    local device="$1"
+    local luks_name; luks_name=$(generate_luks_name)
+    
+    if [[ ! -b "$device" ]]; then
+        printf "Error: %s is not a valid block device\n" "$device" >&2
+        return 1
+    fi
+    
+    if ! cryptsetup luksFormat "$device"; then
+        printf "Error: Failed to encrypt %s with LUKS\n" "$device" >&2
+        return 1
+    fi
+    
+    if ! cryptsetup open "$device" "$luks_name"; then
+        printf "Error: Failed to open LUKS device %s\n" "$device" >&2
+        return 1
+    fi
+    
+    if ! mkfs.btrfs "/dev/mapper/$luks_name"; then
+        printf "Error: Failed to format LUKS device %s with Btrfs\n" "$device" >&2
+        cryptsetup close "$luks_name"
+        return 1
+    fi
+    
+    printf "Device %s encrypted and formatted to Btrfs successfully\n" "$device"
+}
+
+# Function to open and mount a previously encrypted LUKS device
+open_device() {
+    local device="$1"
+    local luks_name; luks_name=$(generate_luks_name)
+    local mount_point; mount_point=$(find_mount_point)
+    
+    if [[ ! -b "$device" ]]; then
+        printf "Error: %s is not a valid block device\n" "$device" >&2
+        return 1
+    fi
+    
+    if ! cryptsetup open "$device" "$luks_name"; then
+        printf "Error: Failed to open LUKS device %s\n" "$device" >&2
+        return 1
+    fi
+    
+    if ! mkdir -p "$mount_point"; then
+        printf "Error: Failed to create mount point %s\n" "$mount_point" >&2
+        cryptsetup close "$luks_name"
+        return 1
+    fi
+    
+    if ! mount "/dev/mapper/$luks_name" "$mount_point"; then
+        printf "Error: Failed to mount LUKS device %s to %s\n" "$device" "$mount_point" >&2
+        cryptsetup close "$luks_name"
+        return 1
+    fi
+    
+    printf "Device %s opened and mounted to %s successfully\n" "$device" "$mount_point"
+}
+
+# Function to unmount and close a LUKS device
+close_device() {
+    local luks_name="$1"
+    local mount_point
+    
+    if [[ -z "$luks_name" ]]; then
+        printf "Error: LUKS name is required for closing the device\n" >&2
+        return 1
+    fi
+    
+    mount_point=$(mount | grep "/dev/mapper/$luks_name" | awk '{print $3}')
+    
+    if [[ -z "$mount_point" ]]; then
+        printf "Error: Failed to find the mount point for LUKS device %s\n" "$luks_name" >&2
+        return 1
+    fi
+    
+    if ! umount "$mount_point"; then
+        printf "Error: Failed to unmount %s\n" "$mount_point" >&2
+        return 1
+    fi
+    
+    if ! cryptsetup close "$luks_name"; then
+        printf "Error: Failed to close LUKS device %s\n" "$luks_name" >&2
+        return 1
+    fi
+    
+    printf "LUKS device %s unmounted and closed successfully\n" "$luks_name"
+}
+
+# Function to list all mounted LUKS devices with their names, mount points, and sizes
+list_devices() {
+    local luks_devices; luks_devices=$(lsblk -o NAME,MOUNTPOINT,SIZE,TYPE | grep "crypt")
+    
+    if [[ -z "$luks_devices" ]]; then
+        printf "No LUKS devices found.\n"
+        return 0
+    fi
+    
+    printf "LUKS devices:\n"
+    printf "%s\n" "NAME       MOUNTPOINT       SIZE"
+    printf "%s\n" "$luks_devices"
+}
+
+# Function to display help information
+display_help() {
+    printf "Usage: %s {encrypt|open|close|list|help} /path/to/device [luks_name]\n" "$0"
+    printf "\nOptions:\n"
+    printf "  encrypt /path/to/device          Encrypt the device partition with LUKS and format it to Btrfs\n"
+    printf "  open /path/to/device             Open the device previously encrypted with LUKS and mount it to /mnt/usb1 or /mnt/usb2\n"
+    printf "  close [luks_name]                Unmount the device and close the LUKS device\n"
+    printf "  list                             List all mounted LUKS devices with their names, mount points, and sizes\n"
+    printf "  help                             Display this help message\n"
+    printf "\nGuide to view all available block devices:\n"
+    printf "  sudo lsblk\n"
+    printf "\nGuide to view file systems with df in human readable format:\n"
+    printf "  df -h\n"
+    printf "\nGuide to prepare a partition for encryption with fdisk and fill with random data:\n"
+    printf "  1. Open fdisk to create a new partition:\n"
+    printf "     sudo fdisk /dev/sdX\n"
+    printf "  2. Create a new partition:\n"
+    printf "     Command: n\n"
+    printf "     Follow the prompts to create the partition.\n"
+    printf "  3. Write the changes and exit fdisk:\n"
+    printf "     Command: w\n"
+    printf "  4. Fill the partition with random data:\n"
+    printf "     sudo dd if=/dev/urandom of=/dev/sdX1 bs=4M status=progress\n"
+    printf "\nGuide to prepare a file container for encryption:\n"
+    printf "  1. Create an empty file container:\n"
+    printf "     dd if=/dev/urandom of=container.img bs=1M count=1024 status=progress\n"
+    printf "  2. Encrypt the file container with LUKS:\n"
+    printf "     sudo cryptsetup luksFormat container.img\n"
+    printf "  3. Open the encrypted container:\n"
+    printf "     sudo cryptsetup open container.img luks_container\n"
+    printf "  4. Format the container to Btrfs:\n"
+    printf "     sudo mkfs.btrfs /dev/mapper/luks_container\n"
+    printf "  5. Mount the container:\n"
+    printf "     sudo mount /dev/mapper/luks_container /mnt\n"
+    printf "\nGuide to manage LUKS passwords and key files:\n"
+    printf "  1. Change LUKS password:\n"
+    printf "     sudo cryptsetup luksChangeKey /dev/sdX1\n"
+    printf "  2. Add a new password to LUKS:\n"
+    printf "     sudo cryptsetup luksAddKey /dev/sdX1\n"
+    printf "  3. Create and add a key file to LUKS:\n"
+    printf "     dd if=/dev/urandom of=keyfile bs=1024 count=4\n"
+    printf "     sudo cryptsetup luksAddKey /dev/sdX1 keyfile\n"
+    printf "  4. Remove a password or key file from LUKS:\n"
+    printf "     sudo cryptsetup luksRemoveKey /dev/sdX1\n"
+}
+
+# Main function to handle script arguments and call appropriate functions
+main() {
+    if [[ $# -lt 1 ]]; then
+        printf "Usage: %s {encrypt|open|close|list|help} /path/to/device [luks_name]\n" "$0" >&2
+        return 1
+    fi
+    
+    local action="$1"
+    local device="$2"
+    local luks_name="$3"
+    
+    case "$action" in
+        encrypt)
+            encrypt_device "$device"
+            ;;
+        open)
+            open_device "$device"
+            ;;
+        close)
+            close_device "$luks_name"
+            ;;
+        list)
+            list_devices
+            ;;
+        help)
+            display_help
+            ;;
+        *)
+            printf "Invalid action: %s\n" "$action" >&2
+            printf "Usage: %s {encrypt|open|close|list|help} /path/to/device [luks_name]\n" "$0" >&2
+            return 1
+            ;;
+    esac
+}
+
+main "$@"
