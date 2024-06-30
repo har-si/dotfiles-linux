@@ -8,6 +8,9 @@ LUKS (Linux Unified Key Setup) can do **Full Disk Encryption** and **Container F
       Use *fdisk* or *gparted* to create a disk partition.
       Wipe the partition with random data using:
       `dd if=/dev/urandom of=/dev/sdx/sdx1 bs=4M status=progress`
+      Common Block Size (BS) used is 1M or 4M.
+      Alternatively, `shred --verbose --random-source=/dev/urandom /dev/sdx`
+      Shred uses 3 passes by default.
 
   2. Container File
       Create a container file:
