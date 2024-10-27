@@ -200,3 +200,41 @@ nmtui trash-cli ncdu seahorse`
     * Unhook - Remove YouTube Recommended & Shorts
     * Bitwarden
 1. uBlock Origin to block all youtube shorts: <https://github.com/gijsdev/ublock-hide-yt-shorts/tree/master>
+
+---
+
+## Gnome Extensions
+1. Alphabetical App Grid
+1. AppIndicator and KStatusNotifierItem Support
+1. Appp menu is back
+1. Blur my Shell
+1. Caffeine
+1. Clipboard History
+1. GSConnect
+1. Tiling Assistant
+1. User Themes
+1. Vitals
+1. Launch new instance
+
+---
+
+## Keyboard Shortcuts
+
+---
+
+## Gnome Extensions
+1. Alphabetical App Grid
+1. AppIndicator and KStatusNotifierItem Support
+1. Appp menu is back
+1. Blur my Shell
+1. Caffeine
+1. Clipboard History
+1. GSConnect
+1. Tiling Assistant
+1. User Themes
+1. Vitals
+1. Launch new instance
+
+---
+
+## Keyboard Shortcuts
