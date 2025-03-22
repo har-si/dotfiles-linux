@@ -171,6 +171,7 @@ nmtui trash-cli ncdu seahorse`
 1. Open Gnome Tweaks and change the desired themes and icons
 1. Open User Themes Extension settings and set the desired themes
 1. Copy and replace the GTK-4.0 folder files from the themes folder to `~/.config/gtk-4.0`
+1. Use Open Bar Extension to change the panel and dock appearance
 1. For blur effects, edit the Blur-My-Shell settings (panel, application, overview)
 1. For gaps, use Tiling Assistant Extension to add gaps, maximize windows, and Tiling State
 
@@ -215,6 +216,8 @@ nmtui trash-cli ncdu seahorse`
 1. User Themes
 1. Vitals
 1. Launch new instance
+1. Dash to Dock
+1. Open Bar
 
 ---
 
@@ -222,19 +225,3 @@ nmtui trash-cli ncdu seahorse`
 
 ---
 
-## Gnome Extensions
-1. Alphabetical App Grid
-1. AppIndicator and KStatusNotifierItem Support
-1. Appp menu is back
-1. Blur my Shell
-1. Caffeine
-1. Clipboard History
-1. GSConnect
-1. Tiling Assistant
-1. User Themes
-1. Vitals
-1. Launch new instance
-
----
-
-## Keyboard Shortcuts
